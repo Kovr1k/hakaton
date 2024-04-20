@@ -28,8 +28,8 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 
 class AchievementAdmin(admin.ModelAdmin):
-    list_display = ['name', 'icon', 'category', 'scores']
-    list_editable = ['scores']
+    list_display = ['name', 'icon', 'category', 'addExperience', 'addScore']
+    list_editable = ['addExperience', 'addScore']
     list_display_links = ['name']
     class Meta:
         model = Achievement
@@ -55,8 +55,8 @@ class InputDataAdmin(admin.ModelAdmin):
 admin.site.register(InputData, InputDataAdmin) 
 
 class AchievementProgressAdmin(admin.ModelAdmin):
-    list_display = ['user', 'achievement', 'progress']
-    list_editable = ['progress']
+    list_display = ['user', 'achievement', 'progress', 'DoneOrNot']
+    list_editable = ['progress', 'DoneOrNot']
     class Meta:
         model = AchievementProgress
 

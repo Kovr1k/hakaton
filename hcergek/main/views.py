@@ -15,6 +15,10 @@ class Main(View):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=0)[0])
         elif userProfile[0].experience in range(500, 999):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=1)[0])
+        elif userProfile[0].experience in range(1000, 1500):
+            userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
+        elif userProfile[0].experience in range(1500, 2500):
+            userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
         data = {
             'userProfile': userProfile,
             'levels': levels,
@@ -55,7 +59,13 @@ class TestAPIForm(View):
                         if el.progress < el.achievement.limit:
                             tmp |= AchievementProgress.objects.filter(achievement = el.achievement, user = userProfile[0])
                             tmp.update(progress=el.progress + 1)
-                userProfile.update(experience=int(userProfile[0].experience)+5)
+                            if el.progress + 1 == el.achievement.limit:
+                                tmp.update(DoneOrNot=True)
+                                if userProfile[0].experience < 2500:
+                                    userProfile.update(experience=int(userProfile[0].experience)+tmp[0].achievement.addExperience)
+                                userProfile.update(score=int(userProfile[0].score + tmp[0].achievement.addScore))
+                if userProfile[0].experience < 2500:
+                    userProfile.update(experience=int(userProfile[0].experience)+5)
                 userProfile.update(score=int(userProfile[0].score)+form.cleaned_data['cheque']*userProfile[0].level.value/100)
                 return redirect('main')
         
@@ -82,7 +92,7 @@ class AddAchievements(View):
             form = achievementForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('main')
+                return redirect('addAchievements')
         
         form = achievementForm()
         list = Achievement.objects.all()
@@ -92,11 +102,16 @@ class AddAchievements(View):
         }
         return render(request, "admin/addAchievement.html", data)
     def post(self, request):
+        current_user = request.user
+        userProfile = UserData.objects.filter(user=current_user) 
         if request.method =='POST':
             form = achievementForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('main')
+                for el in UserData.objects.all():
+                    a = AchievementProgress.objects.create(user=el, achievement=Achievement.objects.filter(name=form.cleaned_data['name'])[0], progress=0, DoneOrNot=False)
+                    a.save()
+                return redirect('addAchievements')
         
         form = achievementForm()
         data = {
