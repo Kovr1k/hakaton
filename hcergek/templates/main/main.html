@@ -7,28 +7,67 @@
 
 <link rel="stylesheet" href="{% static 'css/main/main.css' %}">
 
-    {% for obj in userProfile %}
-        <div>Имя: {{ obj.name }}</div>
-        <div>Уровень: {{ obj.level }}</div>
 
-        <div>Прогресс: {{ obj.experience }} / 
+
+<div class="mobile-layout">
+
+    <!-- Иконка меню -->
+    <div class="menu-icon" onclick="toggleMenu()">
+        <img src="{% static 'images/menu_icon.png' %}" alt="Меню">
+    </div>
+
+    <!-- Меню скрытое -->
+    <div class="menu" id="menu">
+        <!-- меню -->
+    </div>
+
+    {% for obj in userProfile %}
+        <!-- Контейнер для иконки уровня и прогресса -->
+        <div class="level-container">
+            <!-- Квадратик уровня -->
+            <div class="level-icon"></div>
+
+            
+            <!-- Подпись уровня -->
+            <div class="level-name">
+                {{ obj.level }}
+            </div>
+        
+
+        <!-- Линия прогресса -->
+        <div class="progress-bar">
+            <div class="progress" style="width: {{ obj.experience }}%;"></div>
+        </div>
+
+        <!-- Опыт -->
+        <div class="experience">
+            {{ obj.experience }} / 
             {% for el in levels %} 
                 {% if obj.level|striptags == el.name %}
                 {{ el.maxExperience }}
                 {% endif %}
             {% endfor %}
         </div>
+        </div>
 
+        <!-- Информация о пользователе -->
+        <div class="user-info">
+            {{ obj.surname }} <br>
+            <span class="user-label">Фамилия</span> <br> 
+            {{ obj.name }} <br>
+            <span class="user-label">Имя</span><br>
+            {{ obj.email }}
+            <span class="user-label">Почта</span><br>
+        </div>
 
-        <!-- TODO Подробности об уровнях -->
-        <!-- <div style="background-color: brown; width: 100px; height: 30px; cursor: pointer;" onclick=moreDetailed()>Подробнее</div> -->
-        
-        <div>Баллы: {{ obj.score }}</div>
-        
     {% endfor %}
+</div>
 
-        
-
-    <script src="{% static 'js/main/main.js' %}"></script>
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById("menu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+</script>
 
 {% endblock %}
