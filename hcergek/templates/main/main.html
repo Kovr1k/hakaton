@@ -10,19 +10,34 @@
 
 
 <div class="mobile-layout">
-    {% for obj in userProfile %}
-    <!-- Иконка меню -->
-    <div class="menu-icon" onclick="toggleMenu()">
-        <img src="{% static 'images/menu_icon.png' %}" width="35px" height="25px" style="margin-top: 10px;">
-        <div style="justify-content: right; width: 370px; text-align: end; margin-top: -25px; font-size: 22px;"><div><b>{{ obj.score }}</b></div><img style="width: 25px; height: 20px; margin-top: -70px; margin-right: 40px;" src="{% static 'images/money.png' %}" ></div>
-    </div>
 
-    <!-- Меню скрытое -->
-    <div class="menu" id="menu">
-        <!-- меню -->
-    </div>
+    <div class="sidebar" onclick="toggleMenu()">
 
+        <!-- Иконка меню -->
+    <div class="menu-icon">
+        <img src="{% static 'images/menu_icon.png' %}" width="35px" height="25px" style="margin-top: 0px; margin-left: -5px">
+    </div>  
+
+        <!-- Меню скрытое -->
+        <div class="menu" id="menu">
+            <div class="counteiner-fluid">
+            <div class="menu-item col-3">
+                <span><a class="url" href="{% url 'main' %}">Личный кабинет </a></span>
+            </div>
+            <div class="menu-item col-4">
+                <span><a class="url" href="{% url 'achievements' %}">Достижения</a></span>
+            </div>
+            <div class="menu-item col-4">
+                <span><a class="url" href="{% url 'achievements' %}">Активности</a></span>
+            </div>
+            
+            </div>
+        </div>
+    </div>
     
+    {% for obj in userProfile %}
+    
+    <div style="justify-content: right; width: 360px; text-align: end; margin-top: -50px; font-size: 22px;"><div><b>{{ obj.score }}</b></div><img style="width: 25px; height: 20px; margin-top: -70px; margin-right: 40px;" src="{% static 'images/money.png' %}" ></div>
         <!-- Контейнер для иконки уровня и прогресса -->
         <div class="level-container">
             <!-- Квадратик уровня -->
@@ -124,10 +139,14 @@
 
 
 <script>
-function toggleMenu() {
-const menu = document.getElementById("menu");
-menu.style.display = menu.style.display === "block" ? "none" : "block";
-}
+    function toggleMenu() {
+        const menu = document.getElementById("menu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+    function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.classList.toggle('show');
+    }
 </script>
 <script src="{% static 'js/main/main.js' %}"></script>
 

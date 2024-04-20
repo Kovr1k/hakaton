@@ -104,8 +104,10 @@ class TestAPIForm(View):
 class Achievements(View):
     def get(self, request):
         current_user = UserData.objects.filter(user=request.user)
+        userData = current_user
         achievementProgress = AchievementProgress.objects.filter(user=current_user[0])
         data = {
+            'userData': userData,
             'achievementProgress': achievementProgress,
         }
         return render(request, "main/achievements.html", data)
