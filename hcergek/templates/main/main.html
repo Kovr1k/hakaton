@@ -13,8 +13,8 @@
     {% for obj in userProfile %}
     <!-- Иконка меню -->
     <div class="menu-icon" onclick="toggleMenu()">
-        <img src="{% static 'images/menu_icon.png' %}" alt="Меню">
-        <div style="justify-content: right; width: 340px; text-align: end; margin-top: -20px; font-size: 22px;"><div>{{ obj.score }}</div><img style="width: 40px; height: 32px; margin-top: -70px; margin-right: -42px;" src="{% static 'images/money.png' %}" ></div>
+        <img src="{% static 'images/menu_icon.png' %}" width="35px" height="25px" style="margin-top: 10px;">
+        <div style="justify-content: right; width: 370px; text-align: end; margin-top: -25px; font-size: 22px;"><div><b>{{ obj.score }}</b></div><img style="width: 25px; height: 20px; margin-top: -70px; margin-right: 40px;" src="{% static 'images/money.png' %}" ></div>
     </div>
 
     <!-- Меню скрытое -->
@@ -27,13 +27,13 @@
         <div class="level-container">
             <!-- Квадратик уровня -->
             <div class="level-icon">
-                <img src="/media/{{ obj.level.img }}">
+                <img src="/media/{{ obj.level.img }}" style="width: 130px; height: 130px; margin-top: -50px; margin-left: -32px;">
             </div>
 
             
             <!-- Подпись уровня -->
             <div class="level-name">
-                {{ obj.level }}
+                <b>{{ obj.level }}</b>
             </div>
         
 
@@ -50,7 +50,7 @@
 
             #greenBar {
             width: 0%;
-            height: 12px;
+            height: 15px;
             background-color: #484AA1;
             border-radius: 10px;
             }
@@ -75,32 +75,32 @@
 <!-- Информация о пользователе -->
 <div class="user-info">
     <div class="sub-info">
-        <span class="user-object">{{ obj.theard_name }}</span> 
+        <span class="user-object"><b>{{ obj.theard_name }}</b></span> 
         <span class="user-label">Фамилия</span>
     </div>
     <div class="sub-info">
-        <span class="user-object">{{ obj.name }}</span> 
+        <span class="user-object"><b>{{ obj.name }}</b></span> 
         <span class="user-label">Имя</span>
     </div>  
     <div class="sub-info"> 
-        <span class="user-object">{{ obj.email }}</span>
+        <span class="user-object"><b>{{ obj.email }}</b></span>
         <span class="user-label">Почта</span>
     </div> 
 </div>
 
 <div class="achievements-container">
-    <span class="process">В процессе достижения</span>
+    <span class="process"><b>В процессе достижения</b></span>
     
     <div class="achievement-row">
         {% for el in achievementList %}
         <div class="achievement-box">
             <div class="achievement-content">
                 <div class="achievement-icon ">
-                    <img src="/media/{{ el.achievement.icon }}"  width="70px" height="70px">
+                    <img src="/media/{{ el.achievement.icon }}"  width="auto" height="120%" style="margin-left: -40px; border-radius: 3vw; margin-top: -10px;">
                 </div>
                 
                 <!-- Сколько монет -->
-                <div class="coins">{{ el.achievement.addScore }}</div>
+                <div class="coins"><img style="width: 15px; height: 15px; margin-top: -3px; margin-right: 3px;" src="{% static 'images/money.png' %}" >{{ el.achievement.addScore }}</div>
                 
                 <!-- Линия прогресса -->
                 <div class="progress-bar-ach">
@@ -108,7 +108,7 @@
                 </div>
                 
                 <!-- Название достижения -->
-                <div class="achievement-label">{{ el.achievement.name }}</div>
+                <div class="achievement-label"><b>{{ el.achievement.name }}</b></div>
             </div>
         </div>
         {% endfor %}
