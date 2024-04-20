@@ -3,6 +3,7 @@
 body {
     font-size: 14px;
     font-family: 'Open Sans';
+    background-color: #f5f5f5;
 }
 
 .mobile-layout {
@@ -15,14 +16,39 @@ body {
     margin-bottom: 20px;
     width: 28px;
     height: 18px;
+    margin-left: 20px;
+    padding-top: 20px;
 }
 
 .menu {
     display: none;
-    background-color: #f4f4f4;
+    flex-direction: column;
+    background-color: #fff;
     padding: 10px;
     border-radius: 5px;
 }
+
+.url {
+    text-decoration: none;
+    font-family: 'Open Sans';
+    color: #454545;
+    font-weight: 1000;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.sidebar {
+    background-color: #fff;
+    width: 380px;
+    height: 65px;
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+.menu.show {
+    display: flex;
+}
+
 
 .level-container {
     text-align: center;
@@ -36,11 +62,12 @@ body {
 .level-icon {
     width: 64px;
     height: 64px;
+    background-color: #484AA1;
     margin-bottom: 15px;
 }
 
 .level-name {
-    font-size: 3vw;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -110,7 +137,7 @@ body {
 .achievement-box {
     width: 50%;
     height: auto;
-    background-color: #fff;
+    background-color: #f5f5f5;
     padding: 10px;
     margin-bottom: 10px;
 }
@@ -129,6 +156,7 @@ body {
     font-size: 14px;
     margin-bottom: 5px;
     color: #484AA1;
+    font-weight: bold;
 }
 
 .progress-bar-ach {
@@ -153,16 +181,35 @@ body {
 
 }
 
+.counteiner-fluid{
+    text-wrap: nowrap;
+    align-items:center;
+    column-width: 30%;
+    display: flex;
+    margin-left: 3%;
+    margin-top: -40px;
+}
+
+.col-3{
+    width: 30%;
+    margin-left: 12%;
+    margin-right: -9.5vw;
+    line-height: 1;
+    margin-top: 2%;
+    text-wrap: wrap;
+}
+
+.col-4{
+    width: 27%;
+    margin-right: 0vw;
+    margin-top: 2%;
+    
+}
+
 
 @media screen and (max-width: 768px) {
 
-    .menu-icon {
-        cursor: pointer;
-        margin-bottom: 20px;
-        width: 28px;
-        height: 18px;
-    } 
-
+    
     .mobile-layout {
         padding: 10px;
     }
@@ -177,13 +224,8 @@ body {
         height: 64px;
     }
 
-    .level-icon img{
-        width: 64px;
-        height: 64px;
-    }
-
     .level-name {
-        font-size: 22px;
+        font-size: 20px;
         width: 166px;
         height: 33px;
     }
@@ -219,7 +261,50 @@ body {
         margin-bottom: 7px;
     }
 
-   
+    .menu-icon {
+        cursor: pointer;
+        margin-bottom: 20px;
+        width: 28px;
+        height: 18px;
+        margin-left: 20px;
+        padding-top: 20px;
+    }
+    
+    .menu {
+        display: none;
+        flex-direction: column;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    
+    .url {
+        text-decoration: none;
+        font-family: 'Open Sans';
+        color: #454545;
+        font-weight: 1000;
+        margin-bottom: 10px;
+    }
+    
+    .sidebar {
+        background-color: #fff;
+        width: 380px;
+        height: 65px;
+        margin-left: -10px;
+        margin-top: -10px;
+    }
+    
+    .menu.show {
+        display: flex;
+    }
+    
+    .counteiner-fluid{
+        text-wrap: nowrap;
+        align-items:center;
+        column-width: 30%;
+        display: flex;
+
+    }
 
     
 }
