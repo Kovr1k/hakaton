@@ -10,10 +10,11 @@
 
 
 <div class="mobile-layout">
-
+    {% for obj in userProfile %}
     <!-- Иконка меню -->
     <div class="menu-icon" onclick="toggleMenu()">
         <img src="{% static 'images/menu_icon.png' %}" alt="Меню">
+        <div style="justify-content: right; width: 375px; text-align: end; margin-top: -20px; font-size: 22px;"><div>{{ obj.score }}</div><img src="{% static 'images/maney.png' %}"></div>
     </div>
 
     <!-- Меню скрытое -->
@@ -21,7 +22,7 @@
         <!-- меню -->
     </div>
 
-    {% for obj in userProfile %}
+    
         <!-- Контейнер для иконки уровня и прогресса -->
         <div class="level-container">
             <!-- Квадратик уровня -->
