@@ -55,7 +55,7 @@ class TestAPIForm(View):
                         if el.progress < el.achievement.limit:
                             tmp |= AchievementProgress.objects.filter(achievement = el.achievement, user = userProfile[0])
                             tmp.update(progress=el.progress + 1)
-                userProfile.update(experience=int(userProfile[0].experience)+300)
+                userProfile.update(experience=int(userProfile[0].experience)+5)
                 userProfile.update(score=int(userProfile[0].score)+form.cleaned_data['cheque']*userProfile[0].level.value/100)
                 return redirect('main')
         
