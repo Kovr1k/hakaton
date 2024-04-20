@@ -22,10 +22,10 @@ class Main(View):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=0)[0])
         elif userProfile[0].experience in range(500, 999):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=1)[0])
-        elif userProfile[0].experience in range(1000, 1500):
+        elif userProfile[0].experience in range(1000, 1499):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
         elif userProfile[0].experience in range(1500, 2500):
-            userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
+            userProfile.update(level=Level.objects.filter(digitalEquivalent=3)[0])
 
         percentLVL = int(userProfile[0].experience) / int(userProfile[0].level.maxExperience) * 100
 
@@ -43,12 +43,26 @@ class TestAPIForm(View):
     def get(self, request):
         current_user = request.user
         userProfile = UserData.objects.filter(user=current_user) 
+        allAchievementProgress = AchievementProgress.objects.filter(user=userProfile[0])
         if request.method =='POST':
             form = inputDataForm(request.POST)
             if form.is_valid():
                 form.save()
-                userProfile.update(experience=int(userProfile[0].experience)+5)
-                userProfile.update(score=int(userProfile[0].score)+form.cleaned_data['cheque']/100)
+                tmp = AchievementProgress.objects.none()
+                target = Event.objects.filter(name=form.cleaned_data['event'])[0].category
+                for el in allAchievementProgress:
+                    if el.achievement.category == target:
+                        if el.progress < el.achievement.limit:
+                            tmp |= AchievementProgress.objects.filter(achievement = el.achievement, user = userProfile[0])
+                            tmp.update(progress=el.progress + 1)
+                            if el.progress + 1 == el.achievement.limit:
+                                tmp.update(DoneOrNot=True)
+                                if userProfile[0].experience < 2500:
+                                    userProfile.update(experience=int(userProfile[0].experience)+tmp[0].achievement.addExperience)
+                                userProfile.update(score=int(userProfile[0].score + tmp[0].achievement.addScore))
+                if userProfile[0].experience < 2500:
+                    userProfile.update(experience=int(userProfile[0].experience)+5)
+                userProfile.update(score=int(userProfile[0].score)+form.cleaned_data['cheque']*userProfile[0].level.value/100)
                 return redirect('main')
         
         form = inputDataForm()

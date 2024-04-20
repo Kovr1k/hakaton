@@ -36,7 +36,6 @@ body {
 .level-icon {
     width: 64px;
     height: 64px;
-    background-color: #484AA1;
     margin-bottom: 15px;
 }
 
@@ -174,6 +173,11 @@ body {
     }
 
     .level-icon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .level-icon img{
         width: 64px;
         height: 64px;
     }
