@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block main %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/main/main.css' %}">
+
+    {% for obj in userProfile %}
+        <div>Имя: {{ obj.name }}</div>
+        <div>Уровень: {{ obj.level }}</div>
+
+        <div>Прогресс: {{ obj.experience }} / 
+            {% for el in levels %} 
+                {% if obj.level|striptags == el.name %}
+                {{ el.maxExperience }}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+
+        <!-- TODO Подробности об уровнях -->
+        <!-- <div style="background-color: brown; width: 100px; height: 30px; cursor: pointer;" onclick=moreDetailed()>Подробнее</div> -->
+        
+        <div>Баллы: {{ obj.score }}</div>
+        
+    {% endfor %}
+
+        
+
+    <script src="{% static 'js/main/main.js' %}"></script>
+
+{% endblock %}

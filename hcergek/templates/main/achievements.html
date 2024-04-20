@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Достижения{% endblock %}
+
+{% block main %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/main/main.css' %}">
+
+    {% for obj in achievementProgress %}
+        {% if obj.progress == obj.achievement.limit %}
+        
+        <div style="background-color: rgb(116, 84, 146); margin: 10px; width: 300px; height: 125px;">
+            <div><img src="/media/{{ obj.achievement.icon }}" style="width: 50px; height: 50px;"></div>
+            <b>{{ obj.achievement.name }}</b>
+            <div>{{ obj.achievement.text }}</div>
+            <div>Прогресс: {{ obj.progress }} / {{ obj.achievement.limit }}</div>
+        </div>
+        
+        {% else %}
+
+        <div style="background-color: rgb(84, 146, 117); margin: 10px; width: 300px; height: 125px;">
+            <div><img src="/media/{{ obj.achievement.icon }}" style="width: 50px; height: 50px;"></div>
+            <b>{{ obj.achievement.name }}</b>
+            <div>{{ obj.achievement.text }}</div>
+            <div>Прогресс: {{ obj.progress }} / {{ obj.achievement.limit }}</div>
+        </div>
+
+        {% endif %}
+
+        
+    {% endfor %}
+
+{% endblock %}
