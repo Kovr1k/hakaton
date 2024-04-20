@@ -25,7 +25,9 @@
         <!-- Контейнер для иконки уровня и прогресса -->
         <div class="level-container">
             <!-- Квадратик уровня -->
-            <div class="level-icon"></div>
+            <div class="level-icon">
+                <img src="/media/{{ obj.level.lvl }}">
+            </div>
 
             
             <!-- Подпись уровня -->
@@ -35,39 +37,97 @@
         
 
         <!-- Линия прогресса -->
-        <div class="progress-bar">
-            <div class="progress"></div>
+
+        <style>
+            #greyProgress {
+            width: 70%;
+            background-color: #ddd;
+            border-radius: 10px;
+            display: flex;
+            justify-content: left;
+            }
+
+            #greenBar {
+            width: 0%;
+            height: 12px;
+            background-color: #484AA1;
+            border-radius: 10px;
+            }
+        </style>
+        <div style="visibility: hidden;" id="{{ percentLVL }}" class="a"></div>
+        
+        <div id="greyProgress">
+            <div id="greenBar"></div>
         </div>
 
-        <!-- Опыт -->
-        <div class="experience">
-            {{ obj.experience }} / 
-            {% for el in levels %} 
-                {% if obj.level|striptags == el.name %}
-                {{ el.maxExperience }}
-                {% endif %}
-            {% endfor %}
-        </div>
-        </div>
-
-        <!-- Информация о пользователе -->
-        <div class="user-info">
-            {{ obj.surname }} <br>
-            <span class="user-label">Фамилия</span> <br> 
-            {{ obj.name }} <br>
-            <span class="user-label">Имя</span><br>
-            {{ obj.email }}
-            <span class="user-label">Почта</span><br>
-        </div>
-
+<!-- Опыт -->
+<div class="experience">
+    {{ obj.experience }} / 
+    {% for el in levels %} 
+        {% if obj.level|striptags == el.name %}
+        {{ el.maxExperience }}
+        {% endif %}
     {% endfor %}
 </div>
+</div>
+
+<!-- Информация о пользователе -->
+<div class="user-info">
+    <div class="sub-info">
+        <span class="user-object">{{ obj.theard_name }}</span> 
+        <span class="user-label">Фамилия</span>
+    </div>
+    <div class="sub-info">
+        <span class="user-object">{{ obj.name }}</span> 
+        <span class="user-label">Имя</span>
+    </div>  
+    <div class="sub-info"> 
+        <span class="user-object">{{ obj.email }}</span>
+        <span class="user-label">Почта</span>
+    </div> 
+</div>
+
+<div class="achievements-container">
+    <span class="process">В процессе достижения</span>
+    
+    <div class="achievement-row">
+        {% for el in achievementList %}
+        <div class="achievement-box">
+            <div class="achievement-content">
+                <div class="achievement-icon ">
+                    <img src="/media/{{ el.achievement.icon }}"  width="70px" height="70px">
+                </div>
+                
+                <!-- Сколько монет -->
+                <div class="coins">{{ el.achievement.addScore }}</div>
+                
+                <!-- Линия прогресса -->
+                <div class="progress-bar-ach">
+                    <div class="progress-ach"></div>
+                </div>
+                
+                <!-- Название достижения -->
+                <div class="achievement-label">{{ el.achievement.name }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+  
+        
+    
+
+{% endfor %}
+</div>
+
 
 <script>
-    function toggleMenu() {
-        const menu = document.getElementById("menu");
-        menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
+function toggleMenu() {
+const menu = document.getElementById("menu");
+menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
 </script>
+<script src="{% static 'js/main/main.js' %}"></script>
 
 {% endblock %}

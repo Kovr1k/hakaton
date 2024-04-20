@@ -27,7 +27,10 @@ class Main(View):
         elif userProfile[0].experience in range(1500, 2500):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
 
+        percentLVL = int(userProfile[0].experience) / int(userProfile[0].level.maxExperience) * 100
+
         data = {
+            'percentLVL': percentLVL,
             'userProfile': userProfile,
             'levels': levels,
             'achievementList': achievementList,
