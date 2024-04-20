@@ -17,6 +17,7 @@ class Level(models.Model):
     
 class Сategory(models.Model):
     name = models.CharField("Название", max_length=100, default='')
+    icon = models.ImageField("Иконка", upload_to='lvl', blank=True, null=True)
 
     def get_absolute_url(self):
         return f'/'

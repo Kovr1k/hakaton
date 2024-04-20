@@ -40,7 +40,7 @@ body {
 }
 
 .level-name {
-    font-size: 18px;
+    font-size: 3vw;
     font-weight: bold;
 }
 
@@ -183,7 +183,7 @@ body {
     }
 
     .level-name {
-        font-size: 20px;
+        font-size: 22px;
         width: 166px;
         height: 33px;
     }
