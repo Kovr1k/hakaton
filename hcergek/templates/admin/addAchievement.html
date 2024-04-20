@@ -26,7 +26,6 @@
         <div>Цель: {{ obj.limit }}</div>
         <div>Активность: {{ obj.event }}</div>
         <div>Кол-во людей: {{ obj.requiredQuantity }}</div>
-        <a href="{% url 'delete_view' part_id=obj.pk %}">Удалить</a>
     </div>
 {% endfor %}
 

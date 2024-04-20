@@ -119,15 +119,20 @@ class AddAchievements(View):
         }
         return render(request, "admin/addAchievement.html", data)
     
-class DeleteView(SuccessMessageMixin, DeleteView):
-    model = Achievement
-    success_url = '/'
-    success_message = "deleted..."
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        name = self.object.name
-        request.session['name'] = name  # name will be change according to your need
-        message = request.session['name'] + ' deleted successfully'
-        message.success(self.request, message)
-        return super(DeleteView, self).delete(request, *args, **kwargs)
+class MyActivities(View):
+    def get(self, request):
+        current_user = request.user
+        userProfile = UserData.objects.filter(user=current_user) 
+        listInputData = InputData.objects.filter(user=userProfile[0])
+        data = {
+            'listInputData': listInputData,
+        }
+        return render(request, "admin/addAchievement.html", data)
+    def post(self, request):
+        current_user = request.user
+        userProfile = UserData.objects.filter(user=current_user) 
+        listInputData = InputData.objects.filter(user=userProfile[0])
+        data = {
+            'listInputData': listInputData,
+        }
+        return render(request, "admin/addAchievement.html", data)
