@@ -5,30 +5,115 @@
 {% block main %}
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/main/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/main/achievements.css' %}">
 
+<div class="mobile-layout">
+
+    <div class="sidebar" onclick="toggleMenu()">
+
+        <!-- Иконка меню -->
+        <div class="menu-icon" >
+            <img src="{% static 'images/menu_icon.png' %}" alt="Меню" width="28px" height="18px">
+        </div>
+
+        <!-- Меню скрытое -->
+        <div class="menu" id="menu">
+            <div class="counteiner-fluid">
+            <div class="menu-item col-3">
+                <span><a class="url" href="{% url 'main' %}">Личный кабинет </a></span>
+            </div>
+            <div class="menu-item col-4">
+                <span><a class="url" href="{% url 'achievements' %}">Достижения</a></span>
+            </div>
+            <div class="menu-item col-4">
+                <span><a class="url" href="{% url 'achievements' %}">Активности</a></span>
+            </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <div class="achiev">
+    <span class="text">Достижения</span><br>
+
+    <div class="all-category">
     {% for obj in achievementProgress %}
-        {% if obj.progress == obj.achievement.limit %}
-        
-        <div style="background-color: rgb(116, 84, 146); margin: 10px; width: 300px; height: 125px;">
-            <div><img src="/media/{{ obj.achievement.icon }}" style="width: 50px; height: 50px;"></div>
-            <b>{{ obj.achievement.name }}</b>
-            <div>{{ obj.achievement.text }}</div>
-            <div>Прогресс: {{ obj.progress }} / {{ obj.achievement.limit }}</div>
+        <div class="category" onclick="toggleCategory(this)">
+            <div class="category-text">{{ obj.achievement.category.name }}</div>
         </div>
-        
-        {% else %}
-
-        <div style="background-color: rgb(84, 146, 117); margin: 10px; width: 300px; height: 125px;">
-            <div><img src="/media/{{ obj.achievement.icon }}" style="width: 50px; height: 50px;"></div>
-            <b>{{ obj.achievement.name }}</b>
-            <div>{{ obj.achievement.text }}</div>
-            <div>Прогресс: {{ obj.progress }} / {{ obj.achievement.limit }}</div>
-        </div>
-
-        {% endif %}
-
-        
     {% endfor %}
+    </div>
+
+    <div class="achievements-container">
+        <div class="achievement-row">
+        {% for obj in achievementProgress %}
+            
+                {% if obj.progress == obj.achievement.limit %}
+                    <div class="achievement-box full-progress">
+                        <div class="achievement-box">
+                            <div class="achievement-content">
+                                <div class="achievement-icon ">
+                                    <img src="/media/{{ obj.achievement.icon }}"  width="70px" height="70px">
+                                    <img src="{% static 'images/checkmark.png' %}" width="70px" height="70px" class="checkmark">
+                                </div>
+                            </div>
+                            <!-- Сколько монет -->
+                            <div class="coins" style="color: #52A14B;">{{ obj.achievement.addScore }}</div>
+                        </div>
+                        <!-- Линия прогресса -->
+                        <div class="progress-bar-ach" style="background-color: #52A14B;">
+                            <div class="progress-ach" style="background-color: #52A14B;"></div>
+                        </div>
+                        
+                        <!-- Название достижения -->
+                        <div class="achievement-label">{{ obj.achievement.name }}</div>
+                    </div>
+                {% else %} 
+                    <div class="achievement-box">
+                        <div class="achievement-box">
+                            <div class="achievement-content">
+                                <div class="achievement-icon ">
+                                    <img src="/media/{{ obj.achievement.icon }}"  width="70px" height="70px">
+                                </div>
+                            </div>
+                            <!-- Сколько монет -->
+                            <div class="coins">{{ obj.achievement.addScore }}</div>
+                        </div>
+                        <!-- Линия прогресса -->
+                        <div class="progress-bar-ach">
+                            <div class="progress-ach"></div>
+                        </div>
+                        
+                        <!-- Название достижения -->
+                        <div class="achievement-label">{{ obj.achievement.name }}</div>
+                    </div>    
+            
+                {% endif %}
+        {% endfor %}
+    </div>
+    </div>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById("menu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+    function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.classList.toggle('show');
+    }
+
+    function toggleCategory(element) {
+    const categories = document.querySelectorAll('.category');
+    categories.forEach(cat => {
+        cat.style.backgroundColor = '#fff';
+        cat.querySelector('.category-text').style.color = '#000'; 
+    });
+    
+    element.style.backgroundColor = '#484AA1'; // выбранный цвет
+    element.querySelector('.category-text').style.color = '#fff'; // белый цвет текста
+    }
+</script>
+<script src="{% static 'js/main/main.js' %}"></script>
 
 {% endblock %}

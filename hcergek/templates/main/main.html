@@ -11,15 +11,32 @@
 
 <div class="mobile-layout">
 
-    <!-- Иконка меню -->
-    <div class="menu-icon" onclick="toggleMenu()">
-        <img src="{% static 'images/menu_icon.png' %}" alt="Меню">
-    </div>
+    <div class="sidebar" onclick="toggleMenu()">
 
-    <!-- Меню скрытое -->
-    <div class="menu" id="menu">
-        <!-- меню -->
+        <!-- Иконка меню -->
+        <div class="menu-icon" >
+            <img src="{% static 'images/menu_icon.png' %}" alt="Меню" width="28px" height="18px">
+        </div>
+
+        <!-- Меню скрытое -->
+        <div class="menu" id="menu">
+            <div class="counteiner-fluid">
+            <div class="menu-item col-3">
+                <span><a class="url" href="{% url 'main' %}">Личный кабинет </a></span>
+            </div>
+            <div class="menu-item col-4">
+                <span><a class="url" href="{% url 'achievements' %}">Достижения</a></span>
+            </div>
+            <div class="menu-item col-4">
+                <span><a class="url" href="{% url 'achievements' %}">Активности</a></span>
+            </div>
+            
+            </div>
+        </div>
     </div>
+    
+        
+    
 
     {% for obj in userProfile %}
         <!-- Контейнер для иконки уровня и прогресса -->
@@ -52,22 +69,66 @@
 
         <!-- Информация о пользователе -->
         <div class="user-info">
-            {{ obj.surname }} <br>
-            <span class="user-label">Фамилия</span> <br> 
-            {{ obj.name }} <br>
-            <span class="user-label">Имя</span><br>
-            {{ obj.email }}
-            <span class="user-label">Почта</span><br>
+            <div class="sub-info">
+                <span class="user-object">{{ obj.theard_name }}</span> 
+                <span class="user-label">Фамилия</span>
+            </div>
+            <div class="sub-info">
+                <span class="user-object">{{ obj.name }}</span> 
+                <span class="user-label">Имя</span>
+            </div>  
+            <div class="sub-info"> 
+                <span class="user-object">{{ obj.email }}</span>
+                <span class="user-label">Почта</span>
+            </div> 
         </div>
+
+        <div class="achievements-container">
+            <span class="process">В процессе достижения</span>
+            
+            <div class="achievement-row">
+                {% for el in achievementList %}
+                <div class="achievement-box">
+                    <div class="achievement-content">
+                        <div class="achievement-icon ">
+                            <img src="/media/{{ el.achievement.icon }}"  width="70px" height="70px">
+                        </div>
+                        
+                        <!-- Сколько монет -->
+                        <div class="coins">{{ el.achievement.addScore }}</div>
+                        
+                        <!-- Линия прогресса -->
+                        <div class="progress-bar-ach">
+                            <div class="progress-ach"></div>
+                        </div>
+                        
+                        <!-- Название достижения -->
+                        <div class="achievement-label">{{ el.achievement.name }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+          
+                
+            
 
     {% endfor %}
 </div>
 
+
 <script>
+
     function toggleMenu() {
         const menu = document.getElementById("menu");
         menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
+    function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.classList.toggle('show');
+    }
 </script>
+<script src="{% static 'js/main/main.js' %}"></script>
 
 {% endblock %}

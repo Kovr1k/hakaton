@@ -11,6 +11,13 @@ class Main(View):
         current_user = request.user
         userProfile = UserData.objects.filter(user=current_user) 
         levels = Level.objects.all()
+        achievementList = AchievementProgress.objects.none()
+        achievementProgress = AchievementProgress.objects.filter(user=userProfile[0])
+        for el in achievementProgress:
+            if (el.progress > 0) & (el.progress < el.achievement.limit):
+                tmp = AchievementProgress.objects.filter(user = el.user, achievement = el.achievement)
+                achievementList |= tmp
+        print(achievementList)
         if userProfile[0].experience in range(0, 499):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=0)[0])
         elif userProfile[0].experience in range(500, 999):
@@ -19,9 +26,11 @@ class Main(View):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
         elif userProfile[0].experience in range(1500, 2500):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
+
         data = {
             'userProfile': userProfile,
             'levels': levels,
+            'achievementList': achievementList,
         }
         return render(request, "main/main.html", data)
     def post(self, request):
@@ -79,6 +88,7 @@ class Achievements(View):
     def get(self, request):
         current_user = UserData.objects.filter(user=request.user)
         achievementProgress = AchievementProgress.objects.filter(user=current_user[0])
+        print(achievementProgress)
         data = {
             'achievementProgress': achievementProgress,
         }
