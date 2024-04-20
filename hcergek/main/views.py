@@ -11,17 +11,29 @@ class Main(View):
         current_user = request.user
         userProfile = UserData.objects.filter(user=current_user) 
         levels = Level.objects.all()
+        achievementList = AchievementProgress.objects.none()
+        achievementProgress = AchievementProgress.objects.filter(user=userProfile[0])
+        for el in achievementProgress:
+            if (el.progress > 0) & (el.progress < el.achievement.limit):
+                tmp = AchievementProgress.objects.filter(user = el.user, achievement = el.achievement)
+                achievementList |= tmp
+        print(achievementList)
         if userProfile[0].experience in range(0, 499):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=0)[0])
         elif userProfile[0].experience in range(500, 999):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=1)[0])
-        elif userProfile[0].experience in range(1000, 1500):
+        elif userProfile[0].experience in range(1000, 1499):
             userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
         elif userProfile[0].experience in range(1500, 2500):
-            userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
+            userProfile.update(level=Level.objects.filter(digitalEquivalent=3)[0])
+
+        percentLVL = int(userProfile[0].experience) / int(userProfile[0].level.maxExperience) * 100
+
         data = {
+            'percentLVL': percentLVL,
             'userProfile': userProfile,
             'levels': levels,
+            'achievementList': achievementList,
         }
         return render(request, "main/main.html", data)
     def post(self, request):
@@ -31,12 +43,26 @@ class TestAPIForm(View):
     def get(self, request):
         current_user = request.user
         userProfile = UserData.objects.filter(user=current_user) 
+        allAchievementProgress = AchievementProgress.objects.filter(user=userProfile[0])
         if request.method =='POST':
             form = inputDataForm(request.POST)
             if form.is_valid():
                 form.save()
-                userProfile.update(experience=int(userProfile[0].experience)+5)
-                userProfile.update(score=int(userProfile[0].score)+form.cleaned_data['cheque']/100)
+                tmp = AchievementProgress.objects.none()
+                target = Event.objects.filter(name=form.cleaned_data['event'])[0].category
+                for el in allAchievementProgress:
+                    if el.achievement.category == target:
+                        if el.progress < el.achievement.limit:
+                            tmp |= AchievementProgress.objects.filter(achievement = el.achievement, user = userProfile[0])
+                            tmp.update(progress=el.progress + 1)
+                            if el.progress + 1 == el.achievement.limit:
+                                tmp.update(DoneOrNot=True)
+                                if userProfile[0].experience < 2500:
+                                    userProfile.update(experience=int(userProfile[0].experience)+tmp[0].achievement.addExperience)
+                                userProfile.update(score=int(userProfile[0].score + tmp[0].achievement.addScore))
+                if userProfile[0].experience < 2500:
+                    userProfile.update(experience=int(userProfile[0].experience)+5)
+                userProfile.update(score=int(userProfile[0].score)+form.cleaned_data['cheque']*userProfile[0].level.value/100)
                 return redirect('main')
         
         form = inputDataForm()
@@ -119,15 +145,20 @@ class AddAchievements(View):
         }
         return render(request, "admin/addAchievement.html", data)
     
-class DeleteView(SuccessMessageMixin, DeleteView):
-    model = Achievement
-    success_url = '/'
-    success_message = "deleted..."
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        name = self.object.name
-        request.session['name'] = name  # name will be change according to your need
-        message = request.session['name'] + ' deleted successfully'
-        message.success(self.request, message)
-        return super(DeleteView, self).delete(request, *args, **kwargs)
+class MyActivities(View):
+    def get(self, request):
+        current_user = request.user
+        userProfile = UserData.objects.filter(user=current_user) 
+        listInputData = InputData.objects.filter(user=userProfile[0])
+        data = {
+            'listInputData': listInputData,
+        }
+        return render(request, "admin/addAchievement.html", data)
+    def post(self, request):
+        current_user = request.user
+        userProfile = UserData.objects.filter(user=current_user) 
+        listInputData = InputData.objects.filter(user=userProfile[0])
+        data = {
+            'listInputData': listInputData,
+        }
+        return render(request, "admin/addAchievement.html", data)

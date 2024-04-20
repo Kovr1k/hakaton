@@ -7,6 +7,7 @@ class Level(models.Model):
     maxExperience = models.IntegerField("Максимальный опыт")
     digitalEquivalent = models.IntegerField("Цифровой эквивалент уровня", blank=True, null=True)
     value = models.IntegerField("Значение(%)", default=0)
+    img = models.ImageField("Иконка", upload_to='lvl', blank=True, null=True)
 
     def get_absolute_url(self):
         return f'/'
