@@ -55,9 +55,12 @@ class Achievement(models.Model):
 class UserData(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField("Имя", max_length=100, default='')
+    theard_name = models.CharField("Фамилия", max_length=100, default='', null=True)
+    email = models.EmailField(null=True, blank=True)
     level = models.ForeignKey("Level", on_delete=models.CASCADE, null=True)
     experience = models.IntegerField("Количество опыта")
     score = models.IntegerField("Количество баллов", blank=True, default=0)
+
 
     def get_absolute_url(self):
         return f'/'
