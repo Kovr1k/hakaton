@@ -14,7 +14,7 @@ class inputDataForm(ModelForm):
 class achievementForm(ModelForm):
    class Meta:
         model = Achievement
-        fields = ['name', 'icon', 'category', 'scores', 'limit', 'event', 'requiredQuantity', 'text']
+        fields = ['name', 'icon', 'category', 'limit', 'event', 'requiredQuantity', 'text', 'addExperience', 'addScore']
 
         widgets = {
 
