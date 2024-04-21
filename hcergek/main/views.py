@@ -191,14 +191,16 @@ class MyActivities(View):
         userProfile = UserData.objects.filter(user=current_user) 
         listInputData = InputData.objects.filter(user=userProfile[0])
         data = {
+            'userProfile': userProfile,
             'listInputData': listInputData,
         }
-        return render(request, "admin/addAchievement.html", data)
+        return render(request, "main/myActivities.html", data)
     def post(self, request):
         current_user = request.user
         userProfile = UserData.objects.filter(user=current_user) 
         listInputData = InputData.objects.filter(user=userProfile[0])
         data = {
+            'userProfile': userProfile,
             'listInputData': listInputData,
         }
-        return render(request, "admin/addAchievement.html", data)
+        return render(request, "main/myActivities.html", data)
