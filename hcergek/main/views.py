@@ -139,10 +139,12 @@ class TestAPIForm(View):
     
 class Achievements(View):
     def get(self, request):
+        category = Сategory.objects.all()
         current_user = UserData.objects.filter(user=request.user)
         userData = current_user
         achievementProgress = AchievementProgress.objects.filter(user=current_user[0])
         data = {
+            'category': category,
             'userData': userData,
             'achievementProgress': achievementProgress,
         }
