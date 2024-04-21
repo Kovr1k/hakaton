@@ -42,9 +42,9 @@
     <span class="text">Достижения</span><br>
     </div>
     <div class="all-category">
-    {% for obj in achievementProgress %}
+    {% for obj in category %}
         <div class="category" onclick="toggleCategory(this)">
-            <div class="category-text">{{ obj.achievement.category.name }}</div>
+            <div class="category-text">{{ obj.name }}</div>
         </div>
     {% endfor %}
     </div>
