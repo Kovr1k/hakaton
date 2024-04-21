@@ -5,39 +5,75 @@ from .forms import *
 from django.db.models import F
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import DeleteView
+from django.views.decorators.csrf import csrf_exempt
 
 class Main(View):
+    @csrf_exempt
     def get(self, request):
-        current_user = request.user
-        userProfile = UserData.objects.filter(user=current_user) 
-        levels = Level.objects.all()
-        achievementList = AchievementProgress.objects.none()
-        achievementProgress = AchievementProgress.objects.filter(user=userProfile[0])
-        for el in achievementProgress:
-            if (el.progress > 0) & (el.progress < el.achievement.limit):
-                tmp = AchievementProgress.objects.filter(user = el.user, achievement = el.achievement)
-                achievementList |= tmp
-        print(achievementList)
-        if userProfile[0].experience in range(0, 499):
-            userProfile.update(level=Level.objects.filter(digitalEquivalent=0)[0])
-        elif userProfile[0].experience in range(500, 999):
-            userProfile.update(level=Level.objects.filter(digitalEquivalent=1)[0])
-        elif userProfile[0].experience in range(1000, 1499):
-            userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
-        elif userProfile[0].experience in range(1500, 2500):
-            userProfile.update(level=Level.objects.filter(digitalEquivalent=3)[0])
+        if request.user.is_authenticated:
+            current_user = request.user
+            userProfile = UserData.objects.filter(user=current_user) 
+            levels = Level.objects.all()
+            achievementList = AchievementProgress.objects.none()
+            achievementProgress = AchievementProgress.objects.filter(user=userProfile[0])
+            for el in achievementProgress:
+                if (el.progress > 0) & (el.progress < el.achievement.limit):
+                    tmp = AchievementProgress.objects.filter(user = el.user, achievement = el.achievement)
+                    achievementList |= tmp
+            print(achievementList)
+            if userProfile[0].experience in range(0, 499):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=0)[0])
+            elif userProfile[0].experience in range(500, 999):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=1)[0])
+            elif userProfile[0].experience in range(1000, 1499):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
+            elif userProfile[0].experience in range(1500, 2500):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=3)[0])
 
-        percentLVL = int(userProfile[0].experience) / int(userProfile[0].level.maxExperience) * 100
+            percentLVL = int(userProfile[0].experience) / int(userProfile[0].level.maxExperience) * 100
 
-        data = {
-            'percentLVL': percentLVL,
-            'userProfile': userProfile,
-            'levels': levels,
-            'achievementList': achievementList,
-        }
-        return render(request, "main/main.html", data)
+            data = {
+                'percentLVL': percentLVL,
+                'userProfile': userProfile,
+                'levels': levels,
+                'achievementList': achievementList,
+            }
+            return render(request, "main/main.html", data)
+        else:
+            return render(request, "main/main.html")
+    @csrf_exempt
     def post(self, request):
-        return render(request, "main/main.html")
+        if request.user.is_authenticated:
+            current_user = request.user
+            userProfile = UserData.objects.filter(user=current_user) 
+            levels = Level.objects.all()
+            achievementList = AchievementProgress.objects.none()
+            achievementProgress = AchievementProgress.objects.filter(user=userProfile[0])
+            for el in achievementProgress:
+                if (el.progress > 0) & (el.progress < el.achievement.limit):
+                    tmp = AchievementProgress.objects.filter(user = el.user, achievement = el.achievement)
+                    achievementList |= tmp
+            print(achievementList)
+            if userProfile[0].experience in range(0, 499):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=0)[0])
+            elif userProfile[0].experience in range(500, 999):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=1)[0])
+            elif userProfile[0].experience in range(1000, 1499):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=2)[0])
+            elif userProfile[0].experience in range(1500, 2500):
+                userProfile.update(level=Level.objects.filter(digitalEquivalent=3)[0])
+
+            percentLVL = int(userProfile[0].experience) / int(userProfile[0].level.maxExperience) * 100
+
+            data = {
+                'percentLVL': percentLVL,
+                'userProfile': userProfile,
+                'levels': levels,
+                'achievementList': achievementList,
+            }
+            return render(request, "main/main.html", data)
+        else:
+            return render(request, "main/main.html")
     
 class TestAPIForm(View):
     def get(self, request):
